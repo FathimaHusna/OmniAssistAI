@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniAssist AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f3f4f6;
+            --chat-bg: #ffffff;
+            --user-msg-bg: #eff6ff;
+            --bot-msg-bg: #f9fafb;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 90vh;
+            background: var(--chat-bg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--chat-bg);
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .chat-header span {
+            color: var(--primary-color);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 85%;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .user-message {
+            background: var(--user-msg-bg);
+            color: var(--primary-color);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .bot-message {
+            background: var(--bot-msg-bg);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-area {
+            display: flex;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            background: var(--chat-bg);
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            padding: 12px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            background: #e5e7eb;
+        }
+
+        button.primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        button.primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .image-preview {
+            padding: 10px 20px;
+            background: var(--chat-bg);
+            border-top: 1px solid var(--border-color);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--bot-msg-bg);
+            border-radius: 12px;
+            align-self: flex-start;
+            width: fit-content;
+            display: none;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            ⚡ <span>OmniAssist AI</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">Hello! I'm OmniAssist. How can I help you today?</div>
+        </div>
+
+        <div class="typing-indicator" id="typing-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="image-preview" id="image-preview">
+            <span id="image-name"></span>
+            <button onclick="clearImage()" style="padding: 4px 8px; font-size: 0.8rem;">Remove</button>
+        </div>
+
+        <div class="input-area">
+            <input type="file" id="image-input" accept="image/*" style="display: none;" onchange="handleImageSelect()">
+            <button onclick="document.getElementById('image-input').click()" title="Upload Image">📎</button>
+
+            <input type="text" id="user-input" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+
+            <button onclick="toggleRecording()" id="record-btn" title="Voice Input">🎤</button>
+            <button class="primary" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let selectedImage = null;
+
+        const chatMessages = document.getElementById('chat-messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTyping() {
+            typingIndicator.style.display = 'flex';
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        function handleImageSelect() {
+            const fileInput = document.getElementById('image-input');
+            if (fileInput.files && fileInput.files[0]) {
+                selectedImage = fileInput.files[0];
+                document.getElementById('image-name').textContent = "Image: " + selectedImage.name;
+                document.getElementById('image-preview').style.display = 'flex';
+            }
+        }
+
+        function clearImage() {
+            selectedImage = null;
+            document.getElementById('image-input').value = '';
+            document.getElementById('image-preview').style.display = 'none';
+        }
+
+        async function toggleRecording() {
+            const recordBtn = document.getElementById('record-btn');
+
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        await sendAudio(audioBlob);
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordBtn.textContent = "⏹️";
+                    recordBtn.style.color = "red";
+                } catch (err) {
+                    console.error("Error accessing microphone:", err);
+                    alert("Could not access microphone.");
+                }
+            } else {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordBtn.textContent = "🎤";
+                recordBtn.style.color = "inherit";
+            }
+        }
+
+        async function sendAudio(audioBlob) {
+            addMessage("🎤 Sending audio...", 'user-message');
+            showTyping();
+
+            const formData = new FormData();
+            formData.append("file", audioBlob, "recording.wav");
+
+            if (selectedImage) {
+                formData.append("image", selectedImage);
+                clearImage();
+            }
+
+            try {
+                const response = await fetch('http://localhost:8000/api/chat/voice', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                hideTyping();
+
+                if (data.transcription) {
+                    // Ideally replace the "Sending audio..." message, but appending is fine for now
+                }
+
+                addMessage(data.response, 'bot-message');
+
+                if (data.audio) {
+                    const audio = new Audio("data:audio/mpeg;base64," + data.audio);
+                    audio.play();
+                }
+
+            } catch (error) {
+                hideTyping();
+                addMessage("Error processing voice query.", 'bot-message');
+                console.error(error);
+            }
+        }
+
+        async function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value.trim();
+
+            if (!message && !selectedImage) return;
+
+            addMessage(message, 'user-message');
+            if (selectedImage) {
+                addMessage(`[Image Uploaded]`, 'user-message');
+            }
+
+            inputField.value = '';
+
+            let payload = { message: message };
+
+            if (selectedImage) {
+                const reader = new FileReader();
+                reader.readAsDataURL(selectedImage);
+                reader.onload = async () => {
+                    const base64Image = reader.result.split(',')[1];
+                    payload.image = base64Image;
+                    clearImage();
+                    await streamResponse(payload);
+                };
+            } else {
+                await streamResponse(payload);
+            }
+        }
+
+        async function streamResponse(payload) {
+            showTyping();
+
+            try {
+                const response = await fetch('http://localhost:8000/api/chat/stream', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                hideTyping();
+
+                // Create a message div for the bot response
+                const messagesDiv = document.getElementById('chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot-message';
+                messagesDiv.appendChild(messageDiv);
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    messageDiv.textContent += chunk;
+                    scrollToBottom();
+                }
+
+            } catch (error) {
+                hideTyping();
+                addMessage("Error: Could not connect to server.", 'bot-message');
+                console.error(error);
+            }
+        }
+
+        function addMessage(text, className) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${className}`;
+            messageDiv.textContent = text;
+            messagesDiv.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+
+</html>

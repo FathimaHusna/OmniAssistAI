@@ -1,0 +1,29 @@
+# Acme Corp HR Policy Handbook
+
+## 1. Remote Work Policy
+Acme Corp supports flexible work arrangements. Employees may work remotely up to 3 days a week with approval from their direct supervisor.
+To request remote work:
+1. Discuss with your manager.
+2. Submit the "Flexible Work Arrangement" form in the HR portal.
+3. Ensure you have a stable internet connection and a secure workspace.
+
+Full remote work is available for specific roles and requires Department Head approval.
+
+## 2. Travel Reimbursement
+Employees traveling for business are entitled to reimbursement for reasonable expenses.
+- **Flights**: Economy class for domestic; Business class for international flights over 8 hours.
+- **Meals**: Up to $75 per day.
+- **Lodging**: Standard hotel rates (up to $200/night).
+Receipts must be submitted within 30 days of travel via the Expense system.
+
+## 3. Paid Time Off (PTO)
+- **Vacation**: 15 days per year for first 3 years; 20 days thereafter.
+- **Sick Leave**: 10 days per year.
+- **Holidays**: Acme Corp observes all federal holidays.
+Unused vacation days can roll over (max 5 days) to the next year.
+
+## 4. IT Security
+- All devices must be encrypted.
+- Do not share passwords.
+- Report phishing attempts to security@acmecorp.com immediately.
+- VPN must be used when accessing company resources from public Wi-Fi.
