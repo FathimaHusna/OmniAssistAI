@@ -1,10 +1,10 @@
 import sys
 import os
 
-# Add app to path
+# Add api to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.services.rag_service import rag_service
+from api.services.rag_service import rag_service
 
 def test_agent():
     print("Testing Calculator Tool...")

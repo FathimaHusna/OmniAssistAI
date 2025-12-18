@@ -6,12 +6,12 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.tools.retriever import create_retriever_tool
 from langchain_core.tools import tool
 import numexpr
-from app.core.config import settings
+from api.core.config import settings
 
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.messages import HumanMessage, AIMessage
 
-from app.services.tools import create_ticket, send_email, schedule_meeting
+from api.services.tools import create_ticket, send_email, schedule_meeting
 
 @tool
 def calculator(expression: str) -> str:

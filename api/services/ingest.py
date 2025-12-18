@@ -3,7 +3,7 @@ from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
-from app.core.config import settings
+from api.core.config import settings
 
 def ingest_docs():
     print(f"Loading documents from {settings.DATA_DIR}...")

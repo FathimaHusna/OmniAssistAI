@@ -1,6 +1,6 @@
 import requests
 from openai import OpenAI
-from app.core.config import settings
+from api.core.config import settings
 import io
 
 class VoiceService:

@@ -15,13 +15,13 @@
 3.  **Ingest Data**:
     Run the ingestion script to create the knowledge base:
     ```bash
-    python -m app.services.ingest
+    python -m api.services.ingest
     ```
 
 4.  **Run the Application**:
     Start the FastAPI server:
     ```bash
-    uvicorn app.main:app --reload
+    uvicorn api.main:app --reload
     ```
 
 5.  **Access the Chat**:

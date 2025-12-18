@@ -2,9 +2,9 @@ from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse, StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.models.chat import ChatRequest, ChatResponse
-from app.services.rag_service import rag_service
-from app.services.voice_service import voice_service
+from api.models.chat import ChatRequest, ChatResponse
+from api.services.rag_service import rag_service
+from api.services.voice_service import voice_service
 import base64
 
 app = FastAPI(title="OmniAssist AI")

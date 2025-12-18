@@ -3,7 +3,7 @@
 **Goal**: Record a 2-3 minute video showcasing the capabilities of OmniAssist AI.
 
 ## Setup
-1.  Ensure the server is running: `uvicorn app.main:app --reload`
+1.  Ensure the server is running: `uvicorn api.main:app --reload`
 2.  Open the frontend: `http://localhost:8000/static/index.html`
 3.  Have a sample image ready (e.g., a chart or screenshot).
 4.  Start your screen recorder (OBS, Loom, etc.).

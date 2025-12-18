@@ -15,7 +15,7 @@ def create_ticket(title: str, description: str, priority: str = "Medium") -> str
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from app.core.config import settings
+from api.core.config import settings
 
 @tool
 def send_email(recipient: str, subject: str, body: str) -> str:
