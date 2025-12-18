@@ -7,8 +7,9 @@ load_dotenv()
 class Settings(BaseSettings):
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
     ELEVENLABS_API_KEY: str = os.getenv("ELEVENLABS_API_KEY", "")
-    CHROMA_DB_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "chroma_db")
-    DATA_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data")
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    CHROMA_DB_DIR: str = os.path.join(BASE_DIR, "chroma_db")
+    DATA_DIR: str = os.path.join(BASE_DIR, "data")
     
     # SMTP Configuration
     SMTP_SERVER: str = os.getenv("SMTP_SERVER", "smtp.gmail.com")

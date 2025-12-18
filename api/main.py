@@ -6,7 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 # Add project root to sys.path for Vercel
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 
 from api.models.chat import ChatRequest, ChatResponse
 from api.services.rag_service import rag_service
@@ -25,11 +26,17 @@ app.add_middleware(
 )
 
 # Mount frontend
-app.mount("/static", StaticFiles(directory="frontend"), name="static")
+frontend_dir = os.path.join(BASE_DIR, "frontend")
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy"}
 
 @app.get("/")
 async def read_root():
-    return FileResponse("frontend/index.html")
+    index_path = os.path.join(BASE_DIR, "frontend/index.html")
+    return FileResponse(index_path)
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
