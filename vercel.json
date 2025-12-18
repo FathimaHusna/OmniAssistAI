@@ -6,7 +6,10 @@
         "chroma_db/**",
         "tests/**",
         "*.md",
-        "Dockerfile"
+        "Dockerfile",
+        "**/*.pyc",
+        "**/__pycache__/**",
+        ".git/**"
       ]
     }
   }
