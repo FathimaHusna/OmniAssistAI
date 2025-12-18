@@ -1,5 +1,5 @@
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_core.messages import HumanMessage
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate
@@ -27,10 +27,7 @@ class RAGService:
             raise ValueError("OPENAI_API_KEY is not set. Please check your .env file.")
             
         self.embeddings = OpenAIEmbeddings(openai_api_key=settings.OPENAI_API_KEY)
-        self.vectorstore = Chroma(
-            persist_directory=settings.CHROMA_DB_DIR, 
-            embedding_function=self.embeddings
-        )
+        self.vectorstore = FAISS.load_local(settings.CHROMA_DB_DIR, self.embeddings, allow_dangerous_deserialization=True)
         self.retriever = self.vectorstore.as_retriever()
         self.llm = ChatOpenAI(model="gpt-4o", openai_api_key=settings.OPENAI_API_KEY)
 

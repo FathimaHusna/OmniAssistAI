@@ -2,7 +2,7 @@ import os
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 from api.core.config import settings
 
 def ingest_docs():
@@ -28,12 +28,12 @@ def ingest_docs():
 
     embeddings = OpenAIEmbeddings(openai_api_key=settings.OPENAI_API_KEY)
     
-    # Create and persist Chroma vector store
-    vectorstore = Chroma.from_documents(
+    # Create and persist FAISS vector store
+    vectorstore = FAISS.from_documents(
         documents=splits,
-        embedding=embeddings,
-        persist_directory=settings.CHROMA_DB_DIR
+        embedding=embeddings
     )
+    vectorstore.save_local(settings.CHROMA_DB_DIR)
     print(f"Vector store created at {settings.CHROMA_DB_DIR}")
 
 if __name__ == "__main__":
