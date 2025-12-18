@@ -14,9 +14,6 @@ venv/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# ChromaDB
-chroma_db/
-
 # IDEs
 .vscode/
 .idea/
