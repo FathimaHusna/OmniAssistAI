@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "preinstall": "if [ \"$VERCEL_GIT_COMMIT_SHA\" = \"4cee186\" ]; then echo 'ERROR: You are deploying an old and broken commit. Please push the latest changes to your git repository and redeploy.'; exit 1; fi"
-  }
-}
