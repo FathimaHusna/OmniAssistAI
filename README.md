@@ -2,6 +2,8 @@
 
 ## Setup Instructions
 
+**Important**: If you have pulled the latest changes from the repository, please make sure to re-run `pip install -r requirements.txt` to install any new or updated dependencies.
+
 1.  **Install Dependencies**:
     ```bash
     pip install -r requirements.txt
