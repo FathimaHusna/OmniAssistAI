@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.models.chat import ChatRequest, ChatResponse
@@ -20,6 +20,10 @@ app.add_middleware(
 
 # Mount frontend
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
+@app.get("/")
+async def read_root():
+    return FileResponse("frontend/index.html")
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
