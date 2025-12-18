@@ -1,7 +1,13 @@
+import os
+import sys
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse, StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+
+# Add project root to sys.path for Vercel
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from api.models.chat import ChatRequest, ChatResponse
 from api.services.rag_service import rag_service
 from api.services.voice_service import voice_service
