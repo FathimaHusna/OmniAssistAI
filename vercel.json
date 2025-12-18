@@ -1,8 +1,13 @@
 {
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/main.py"
+  "functions": {
+    "api/index.py": {
+      "excludeFiles": [
+        "data/**",
+        "chroma_db/**",
+        "tests/**",
+        "*.md",
+        "Dockerfile"
+      ]
     }
-  ]
+  }
 }

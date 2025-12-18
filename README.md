@@ -21,7 +21,7 @@
 4.  **Run the Application**:
     Start the FastAPI server:
     ```bash
-    uvicorn api.main:app --reload
+    uvicorn api.index:app --reload
     ```
 
 5.  **Access the Chat**:
